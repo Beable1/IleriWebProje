@@ -1,0 +1,31 @@
+﻿@model List<CategoryDto>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Created Date</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.CreatedTime</td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<a class="btn-link" asp-area="" asp-controller="Categories" asp-action="Create">Add Category</a>

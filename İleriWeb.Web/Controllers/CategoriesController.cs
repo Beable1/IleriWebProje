@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using NLayer.Core;
-using NLayer.Core.DTOs;
-using NLayer.Core.Models;
-using NLayer.Core.Services;
-using NLayer.Service.Services;
+using IleriWeb.Core;
+using IleriWeb.Core.Models;
+using IleriWeb.Core.Services;
+using IleriWeb.Service.Services;
+using IleriWeb.Core.DTOs;
 
-namespace NLayer.Web.Controllers
+namespace IleriWeb.Web.Controllers
 {
     public class CategoriesController : Controller
     {

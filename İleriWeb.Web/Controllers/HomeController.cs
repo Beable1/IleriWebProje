@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using NLayer.Core.DTOs;
+using IleriWeb.Core.DTOs;
 using System.Diagnostics;
 
-namespace NLayer.Web.Controllers
+namespace IleriWeb
+	.Web.Controllers
 {
 	public class HomeController : Controller
 	{

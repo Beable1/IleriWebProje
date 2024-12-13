@@ -1,18 +1,16 @@
 ﻿using AutoMapper;
-using İleriWeb.Core.DTOs;
-using İleriWeb.Core.Services;
+using IleriWeb.Core.DTOs;
+using IleriWeb.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using NLayer.Core;
-using NLayer.Core.DTOs;
-using NLayer.Core.Models;
-using NLayer.Core.Repositories;
-using NLayer.Core.Services;
-using NLayer.Repository;
+using IleriWeb.Core;
+using IleriWeb.Core.Models;
+using IleriWeb.Core.Repositories;
+using IleriWeb.Repository;
 
-namespace NLayer.Web.Controllers
+namespace IleriWeb.Web.Controllers
 {
     public class ProductsController : Controller
     {
@@ -138,7 +136,7 @@ namespace NLayer.Web.Controllers
 
         public async Task<IActionResult> GetMostOrderedProducts()
         {
-            var mostOrderedProducts = await _context.dailyordersummary.ToListAsync();
+            var mostOrderedProducts = await _context.productstockstatus.ToListAsync();
 
            
                 Console.WriteLine();

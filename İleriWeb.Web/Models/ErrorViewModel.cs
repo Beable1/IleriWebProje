@@ -1,4 +1,4 @@
-namespace İleriWeb.Web.Models
+namespace IleriWeb.Web.Models
 {
     public class ErrorViewModel
     {

@@ -1,19 +1,19 @@
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using NLayer.Core.Repositories;
-using NLayer.Core.Services;
-using NLayer.Core.UnitOfWorks;
-using NLayer.Repository;
-using NLayer.Repository.Repositories;
-using NLayer.Repository.UnitOfWorks;
-using NLayer.Service.Mappers;
-using NLayer.Service.Services;
-using NLayer.Service.Validations;
+using 
+    IleriWeb.Core.Repositories;
+using IleriWeb.Core.Services;
+using IleriWeb.Core.UnitOfWorks;
+using IleriWeb.Repository;
+using IleriWeb.Repository.Repositories;
+using IleriWeb.Repository.UnitOfWorks;
+using IleriWeb.Service.Mappers;
+using IleriWeb.Service.Services;
+using IleriWeb.Service.Validations;
 using System.Reflection;
-using NLayer.Web;
-using ÝleriWeb.Service.Services;
-using ÝleriWeb.Core.Services;
+using IleriWeb.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using NLayer.Core.DTOs;
-using NLayer.Core.Models;
-using NLayer.Core.Services;
+using IleriWeb.Core.DTOs;
+using IleriWeb.Core.Models;
+using IleriWeb.Core.Services;
 
-namespace NLayer.Web
+namespace IleriWeb.Web
 {
     public class NotFoundFilter<T> : IAsyncActionFilter where T : BaseEntity
     {

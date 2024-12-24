@@ -11,6 +11,6 @@ namespace IleriWeb.Core.Services
 {
 	public interface ICategoryService:IService<Category>
 	{
-		public Task<CategoryWithProductsDto>GetSingleCategoryByIdWithProductsAsync(int categoryId);
+		public Task<Category>GetSingleCategoryByIdWithProductsAsync(int categoryId);
 	}
 }

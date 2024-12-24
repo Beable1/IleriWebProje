@@ -1,0 +1,106 @@
+﻿@{
+	var basket = ViewData["Basket"] as Basket;
+	decimal TotalPrice = 0;
+}﻿
+
+@if (ViewBag.CurrentUser == null)
+{
+	<div class="col-md-3 clearfix">
+		<div class="header-ctn">
+			<div>
+				
+				<a  asp-area="" asp-controller="User" asp-action="Register">
+					<i class="fa fa-user-plus"></i>
+					Sign up
+				</a>
+
+			</div>
+
+			<div>
+				
+				<a asp-area="" asp-controller="User" asp-action="Login">
+					<i class="fa fa-sign-in"></i>
+					Login
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	
+}
+else
+{
+	
+
+	
+	
+	<!-- ACCOUNT -->
+	<div class="col-md-4 clearfix">
+		<div class="header-ctn">
+
+			
+
+			<!-- Cart -->
+			<div class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+					<i class="fa fa-shopping-cart"></i>
+					<span>Your Cart</span>
+					<div class="qty">@basket.Items.Count</div>
+				</a>
+				<div class="cart-dropdown">
+					<div class="cart-list">
+
+						@foreach(var item in basket.Items)
+						{
+						<div class="product-widget">
+							<div class="product-img">
+									@{
+										var base64 = Convert.ToBase64String(item.Product.ImageData);
+										var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+									}
+									<img src="@imgSrc" />
+							</div>
+							<div class="product-body">
+								<h3 class="product-name"><a href="#">@item.Product.Name</a></h3>
+								<h4 class="product-price"><span class="qty">@item.Quantity x</span>$@item.TotalPrice</h4>
+							</div>
+								<button class="delete" onclick="window.location.href='/Cart/RemoveFromCart/@item.Id'"><i class="fa fa-close"></i></button>
+						</div>
+						}
+
+
+						
+
+						
+					</div>
+					<div class="cart-summary">
+						<small>@basket.Items.Count Item(s) selected</small>
+						<h5>
+							@foreach (var i in basket.Items)
+							{
+								TotalPrice += i.TotalPrice;
+								
+							}
+							SUBTOTAL: $@TotalPrice
+						</h5>
+					</div>
+					<div class="cart-btns">
+						<a href="#">View Cart</a>
+						<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+			</div>
+			<!-- /Cart -->
+			<div>
+				<a asp-area="" asp-controller="User" asp-action="Logout">
+					<i class="fa fa-sign-out"></i>
+					<span>Log Out</span>
+
+				</a>
+			</div>
+			
+		</div>
+	</div>
+	<!-- /ACCOUNT -->
+}

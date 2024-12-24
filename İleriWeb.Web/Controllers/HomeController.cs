@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using IleriWeb.Core.DTOs;
 using System.Diagnostics;
+using IleriWeb.Core.Services;
 
 namespace IleriWeb
 	.Web.Controllers
@@ -8,14 +9,18 @@ namespace IleriWeb
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly ICategoryService _categoryService;
 
-		public HomeController(ILogger<HomeController> logger)
-		{
-			_logger = logger;
-		}
+        public HomeController(ILogger<HomeController> logger, ICategoryService categoryService)
+        {
+            _logger = logger;
+            _categoryService = categoryService;
+        }
 
-		public IActionResult Index()
+        public async  Task<IActionResult> Index()
 		{
+			var categories = await _categoryService.GetAllAsync();
+			ViewBag.categories = categories.Take(3);
 			return View();
 		}
 

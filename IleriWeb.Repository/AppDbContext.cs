@@ -4,16 +4,18 @@ using IleriWeb.Core;
 using IleriWeb.Core.Models;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata;
 
 namespace IleriWeb.Repository
 {
-    public class AppDbContext:DbContext
-	{
+    public class AppDbContext:IdentityDbContext<ApplicationUser, ApplicationRole, int>
+    {
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -29,14 +31,16 @@ namespace IleriWeb.Repository
         public DbSet<Order> Order { get; set; }
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
-
-        public DbSet<Customer> Customers { get; set; }
-
-
+		public DbSet<Basket> Baskets { get; set; }
+		public DbSet<BasketItem> BasketItems { get; set; }
 
 
 
-        public DbSet<mostorderedproduct> mostorderedproducts { get; set; }
+
+
+
+
+		public DbSet<mostorderedproduct> mostorderedproducts { get; set; }
         public DbSet<mostsoldcategories> mostsoldcategories { get; set; }
         public DbSet<dailyordersummary> dailyordersummary { get; set; }
         public DbSet<mostactivecustomers> mostactivecustomers { get; set; }
@@ -106,12 +110,13 @@ namespace IleriWeb.Repository
 
 			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            modelBuilder.Entity<mostorderedproduct>(entity =>
+
+			modelBuilder.Entity<ApplicationUser>().ToTable(tb => tb.HasTrigger("user_created_trigger"));
+
+			modelBuilder.Entity<mostorderedproduct>(entity =>
             {
                 entity.HasNoKey(); 
                 entity.ToView("mostorderedproducts"); 
-                entity.Property(v => v.productname).HasColumnName("productname");
-                entity.Property(v => v.totalquantity).HasColumnName("totalquantity");
             });
 
             modelBuilder.Entity<mostsoldcategories>(entity =>
@@ -138,6 +143,9 @@ namespace IleriWeb.Repository
                 entity.ToView("productstockstatus");
             });
 
+            
+
+                
             base.OnModelCreating(modelBuilder);
 
 		}

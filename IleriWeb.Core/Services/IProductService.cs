@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 namespace 
 	IleriWeb.Core.Services
 {
-	public interface IProductService:IService<Product>
+	public interface IProductService : IService<Product>
 	{
 		Task<List<ProductWithCategoryDto>> GetProductsWithCategory();
+
+		Task<Product> GetProductDetailsWithIdAsync(int id);
 	}
 }

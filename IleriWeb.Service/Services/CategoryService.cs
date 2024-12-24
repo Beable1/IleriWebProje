@@ -23,11 +23,11 @@ namespace IleriWeb.Service.Services
 			_mapper=mapper;
 		}
 
-		public async Task<CategoryWithProductsDto> GetSingleCategoryByIdWithProductsAsync(int categoryId)
+		public async Task<Category> GetSingleCategoryByIdWithProductsAsync(int categoryId)
 		{
 			var category =await _categoryRepository.GetSingleCategoryByIdWithProductsAsync(categoryId);
-			var categoryDto= _mapper.Map<CategoryWithProductsDto>(category);
-			return categoryDto;
+			
+			return category;
 		}
 
 		

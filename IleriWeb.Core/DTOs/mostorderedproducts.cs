@@ -10,9 +10,12 @@ namespace IleriWeb.Core.DTOs
 {
     public class mostorderedproduct
     {
-       
-        public string productname { get; set; }
-        public int totalquantity { get; set; }
-        
-    }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public decimal ProductPrice { get; set; }
+		public byte[] ImageData { get; set; }
+        public string CategoryName { get; set; }
+        public int TotalQuantityOrdered { get; set; }
+        public int TotalOrders { get; set; }
+	}
 }

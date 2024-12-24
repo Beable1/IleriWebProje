@@ -10,8 +10,10 @@ namespace IleriWeb.Core.Models
     {
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        
+
+        public int? IdentityUserId { get; set; }
+        public ApplicationUser? IdentityUser { get; set; }
 
         public OrderDetail OrderDetails { get; set; }
     }

@@ -13,9 +13,9 @@ namespace IleriWeb.Web.Controllers
 
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        
 
-        public CategoriesController(ICategoryService categoryService,IMapper mapper)
+
+        public CategoriesController(ICategoryService categoryService, IMapper mapper)
         {
             _categoryService = categoryService;
             _mapper = mapper;
@@ -32,7 +32,7 @@ namespace IleriWeb.Web.Controllers
 
         public IActionResult Create()
         {
-           
+
 
             return View();
         }
@@ -40,14 +40,34 @@ namespace IleriWeb.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryDto categoryDto)
         {
+
+            byte[] imageData;
+            using (var memoryStream = new MemoryStream())
+            {
+                await categoryDto.imageFile.CopyToAsync(memoryStream);
+                imageData = memoryStream.ToArray();
+
+            }
+
             if (ModelState.IsValid)
             {
-
-                await _categoryService.AddAsync(_mapper.Map<Category>(categoryDto));
+                var category = _mapper.Map<Category>(categoryDto);
+                category.ImageData = imageData;
+                await _categoryService.AddAsync(_mapper.Map<Category>(category));
                 return RedirectToAction(nameof(Index));
             }
 
             return View();
         }
-    }
+
+
+        public async Task<IActionResult> Products(int id)
+		{
+			var category = await _categoryService.GetSingleCategoryByIdWithProductsAsync(id);
+			
+			return View(category);
+		}
+
+
+	}
 }

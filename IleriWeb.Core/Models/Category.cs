@@ -10,5 +10,6 @@ namespace IleriWeb.Core.Models
     {
         public string Name { get; set; }
         public ICollection<Product> Products { get; set; }
-    }
+		public byte[] ImageData { get; set; }
+	}
 }

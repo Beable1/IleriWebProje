@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata;
 
 namespace IleriWeb.Repository.Repositories
 {
@@ -18,8 +19,15 @@ namespace IleriWeb.Repository.Repositories
 
 		public async Task<List<Product>> GetProductsWithCategory()
 		{
-			
+
 			return await _context.Product.Include(x => x.Category).ToListAsync();
+		}
+
+		
+
+		public async Task<Product> GetProductDetailsWithIdAsync(int id)
+		{
+			return await _context.Product.Include(x => x.ProductFeature).Include(x => x.Category).Where(x => x.Id==id).SingleOrDefaultAsync();
 		}
 	}
 }

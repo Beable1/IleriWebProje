@@ -1,0 +1,123 @@
+﻿@model Category
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div>
+				<ul class="breadcrumb-tree">
+					<li><a href="#">Home</a></li>
+					<li><a href="#">All Categories</a></li>
+					<li><a href="#">@Model.Name  (@Model.Products.Count Results) </a></li>
+					
+				</ul>
+			</div>
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			
+			<!-- STORE -->
+			<div id="store" class="col-md-16">
+				<!-- store top filter -->
+				<div class="store-filter clearfix">
+					<div class="store-sort">
+						<label>
+							Sort By:
+							<select class="input-select">
+								<option value="0">Popular</option>
+								<option value="1">Position</option>
+							</select>
+						</label>
+
+						<label>
+							Show:
+							<select class="input-select">
+								<option value="0">20</option>
+								<option value="1">50</option>
+							</select>
+						</label>
+					</div>
+					<ul class="store-grid">
+						<li class="active"><i class="fa fa-th"></i></li>
+						<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+					</ul>
+				</div>
+				<!-- /store top filter -->
+				<!-- store products -->
+				<div class="row">
+					
+					@foreach(var item in Model.Products)
+					{
+						<!-- product -->
+						<div class="col-md-3 col-xs-6">
+							<div class="product">
+								<div class="product-img">
+									@{
+										var base64 = Convert.ToBase64String(item.ImageData);
+										var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+									}
+									<img src="@imgSrc" style="width: 250px; height: 250px; object-fit: cover;" />
+									<div class="product-label">
+										
+									</div>
+								</div>
+								<div class="product-body">
+									
+									<h3 class="product-name"><a href="#">@item.Name</a></h3>
+									<h4 class="product-price"> $@item.Price </h4>
+									
+									<div class="product-btns">
+										
+										<button class="quick-view" onclick="window.location.href='/Products/ProductDetails/@item.Id'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+									</div>
+								</div>
+								<div class="add-to-cart">
+									<button class="add-to-cart-btn" onclick="window.location.href='/Cart/AddToCart/@item.Id'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+								</div>
+							</div>
+						</div>
+						<!-- /product -->
+
+					}
+
+
+					
+
+
+					
+
+					
+					
+
+					<div class="clearfix visible-lg visible-md visible-sm visible-xs"></div>
+
+				
+					
+
+					<div class="clearfix visible-sm visible-xs"></div>
+
+					
+				</div>
+				<!-- /store products -->
+				
+				<!-- /store bottom filter -->
+			</div>
+			<!-- /STORE -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+		<!

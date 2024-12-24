@@ -1,10 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    IEnumerable<Category> categories = ViewBag.categories;
 }
 
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@await Html.PartialAsync("~/Views/Partials/categoryPartial.cshtml", categories);
 
+
+@await Component.InvokeAsync("MostPopular")
+
+<script src="~/CommerceAssets/js/jquery.min.js"></script>
+<script src="~/CommerceAssets/js/bootstrap.min.js"></script>
+<script src="~/CommerceAssets/js/slick.min.js"></script>
+<script src="~/CommerceAssets/js/nouislider.min.js"></script>
+<script src="~/CommerceAssets/js/jquery.zoom.min.js"></script>
+<script src="~/CommerceAssets/js/main.js"></script>

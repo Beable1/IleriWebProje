@@ -23,6 +23,12 @@ namespace IleriWeb.Service.Services
 			_productRepository = productRepository;
 		}
 
+		public async Task<Product> GetProductDetailsWithIdAsync(int id)
+		{
+			var product = await _productRepository.GetProductDetailsWithIdAsync(id);
+			return product;
+		}
+
 		public async Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
 		{
 			var products = await _productRepository.GetProductsWithCategory();
@@ -32,6 +38,7 @@ namespace IleriWeb.Service.Services
 
 		}
 
-	
+
+
 	}
 }

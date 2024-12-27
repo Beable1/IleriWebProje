@@ -12,7 +12,7 @@ namespace IleriWeb.Core.Models
         // Ekstra özellikler ekleyebilirsiniz
         public string FullName { get; set; }
         public List<Order> Orders { get; set; }
-        
+		
 		public DateTime CreatedAt { get; set; }
     }
 }

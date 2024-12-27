@@ -5,6 +5,7 @@ using IleriWeb.Core.Repositories;
 using IleriWeb.Core.Services;
 using IleriWeb.Core.UnitOfWorks;
 using IleriWeb.Repository.Repositories;
+using IleriWeb.Service.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,12 @@ namespace IleriWeb.Service.Services
 	{
 		private readonly IProductRepıository _productRepository;
 		private readonly IMapper _mapper;
+		private readonly IUnitOfWork _unitOfWork;
 		public ProductService(IGenericRepository<Product> repository, IUnitOfWork unitOfWork, IMapper mapper, IProductRepıository productRepository) : base(repository, unitOfWork)
 		{
 			_mapper = mapper;
 			_productRepository = productRepository;
+			_unitOfWork = unitOfWork;
 		}
 
 		public async Task<Product> GetProductDetailsWithIdAsync(int id)
@@ -36,6 +39,24 @@ namespace IleriWeb.Service.Services
 			var productsDto = _mapper.Map<List<ProductWithCategoryDto>>(products);
 			return productsDto;
 
+		}
+
+		public async Task UpdateStockAsync(int productId, int quantity)
+		{
+			var product = await _productRepository.GetByIdAsync(productId);
+			if (product == null)
+			{
+				throw new NotFoundException("Ürün bulunamadı.");
+			}
+
+			if (product.Stock < quantity)
+			{
+				throw new InvalidOperationException("Yetersiz stok.");
+			}
+
+			product.Stock -= quantity;
+			_productRepository.Update(product);
+			await _unitOfWork.CommitAsync();
 		}
 
 

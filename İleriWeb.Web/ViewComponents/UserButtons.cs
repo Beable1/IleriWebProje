@@ -20,8 +20,12 @@ namespace IleriWeb.Web.ViewComponents
 		{
 			var CurrentUser = GetCurrentUser();
 			ViewBag.CurrentUser = CurrentUser;
-			var basket=await basketService.GetBasketDetailsWithIdAsync(CurrentUser.Id);
-			ViewData["Basket"] = basket;
+			if (CurrentUser != null)
+			{
+				var basket = await basketService.GetBasketDetailsWithIdAsync(CurrentUser.Id);
+				ViewData["Basket"] = basket;
+			}
+			
 			return View();
 		}
 	}

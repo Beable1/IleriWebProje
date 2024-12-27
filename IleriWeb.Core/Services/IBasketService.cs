@@ -11,6 +11,6 @@ namespace IleriWeb.Core.Services
 	{
 		Task<Basket> GetBasketByUserId(int userId);
 		Task<Basket> GetBasketDetailsWithIdAsync(int userId);
-
+		Task ClearBasketAsync(int BasketId);
 	}
 }

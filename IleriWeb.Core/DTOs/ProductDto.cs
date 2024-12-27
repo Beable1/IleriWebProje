@@ -14,7 +14,7 @@ namespace IleriWeb.Core.DTOs
 		public int Stock { get; set; }
 		public decimal Price { get; set; }
 		public int CategoryId { get; set; }
-		public ProductFeature ProductFeature { get; set; }
+		public ProductFeatureDto ProductFeature { get; set; }
 		public string Description { get; set; }
         public IFormFile imageFile { get; set; }
     }

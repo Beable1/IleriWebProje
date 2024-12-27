@@ -25,6 +25,7 @@ namespace IleriWeb.Web.Middleware
 				var userName = context.User?.Identity?.Name ?? string.Empty;
 				Console.WriteLine("USERNAME:" + userName);
 
+
 				if (!string.IsNullOrEmpty(userName))
 				{
 					var user = await userManager.FindByNameAsync(userName);

@@ -106,9 +106,44 @@ namespace IleriWeb.Repository
             return base.SaveChanges();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
+        {
 
-			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+			modelBuilder.Entity<ProductFeature>()
+	        .Property(pf => pf.Id)
+	        .ValueGeneratedOnAdd(); // Otomatik artan Id
+
+			modelBuilder.Entity<ApplicationUser>()
+           .HasMany(u => u.Orders) // Bir ApplicationUser'ın birden çok Order'ı olabilir
+           .WithOne(o => o.IdentityUser) // Her Order bir ApplicationUser'a aittir
+           .HasForeignKey(o => o.IdentityUserId) // Foreign key UserId'dir
+           .OnDelete(DeleteBehavior.Cascade); // User silindiğinde Order'lar da silinsin
+
+			modelBuilder.Entity<Category>()
+		.HasMany(c => c.Products) // Bir Category'nin birden çok Product'ı olabilir
+		.WithOne(p => p.Category) // Her Product bir Category'ye aittir
+		.HasForeignKey(p => p.CategoryId) // Foreign key CategoryId'dir
+		.OnDelete(DeleteBehavior.Cascade); // Category silindiğinde Product'lar da silinsin
+
+			modelBuilder.Entity<Product>()
+		    .HasOne(p => p.ProductFeature) // Her Product'ın bir ProductFeature'ı vardır
+		    .WithOne(pf => pf.Product) // Her ProductFeature bir Product'a aittir
+		    .HasForeignKey<ProductFeature>(pf => pf.ProductId) // Foreign key ProductFeature tablosunda
+		    .OnDelete(DeleteBehavior.Cascade); // Product silindiğinde ProductFeature da silinsin
+
+		    modelBuilder.Entity<Order>()
+	       .HasOne(o => o.OrderDetails) // Her Order'ın bir OrderDetail'ı vardır
+	       .WithOne(od => od.Order) // Her OrderDetail bir Order'a aittir
+	       .HasForeignKey<OrderDetail>(od => od.OrderId) // Foreign key OrderDetail tablosunda
+	       .OnDelete(DeleteBehavior.Cascade); // Order silindiğinde OrderDetail da silinsin 
+
+			modelBuilder.Entity<Basket>()
+		  .HasMany(b => b.Items)
+		  .WithOne(bi => bi.Basket)
+		  .HasForeignKey(bi => bi.BasketId)
+		  .OnDelete(DeleteBehavior.Cascade);
+
 
 
 			modelBuilder.Entity<ApplicationUser>().ToTable(tb => tb.HasTrigger("user_created_trigger"));

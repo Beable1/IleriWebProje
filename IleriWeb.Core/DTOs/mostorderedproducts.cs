@@ -17,5 +17,6 @@ namespace IleriWeb.Core.DTOs
         public string CategoryName { get; set; }
         public int TotalQuantityOrdered { get; set; }
         public int TotalOrders { get; set; }
-	}
+        public int ProductStock { get; set; }
+    }
 }

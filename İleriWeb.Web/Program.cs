@@ -1,4 +1,4 @@
-using FluentValidation.AspNetCore;
+ï»¿using FluentValidation.AspNetCore;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using 
@@ -18,19 +18,23 @@ using Microsoft.Extensions.DependencyInjection;
 using IleriWeb.Core.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using IleriWeb.Web.Middleware;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
+using System.Web.Mvc;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
-    // Opsiyonel: Identity ayarlarý
+    // Opsiyonel: Identity ayarlarÄ±
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
 })
       .AddEntityFrameworkStores<AppDbContext>()
       .AddDefaultTokenProviders();
+
 
 
 // Add services to the container.
@@ -40,11 +44,16 @@ builder.Services.AddSession();
 builder.Services.AddAuthentication(
     CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x => { x.LoginPath = "/user/login"; });
 
+
+
 builder.Services.AddAuthorization(options =>
 {
-	options.AddPolicy("AdminOnly", policy =>
-		policy.RequireRole("Admin"));
+    options.AddPolicy("AdminPolicy", policy =>
+    {
+        policy.RequireRole("admin");
+    });
 });
+
 
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<ProductDtoValidator>();
@@ -52,7 +61,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<ProductDtoValidator>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
-builder.Services.AddScoped<IProductRepýository, ProductRepository>();
+builder.Services.AddScoped<IProductRepÄ±ository, ProductRepository>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
@@ -89,7 +98,11 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
-app.UseMiddleware<CurrentUserMiddleware>(); 
+app.UseSession();
+app.UseMiddleware<CurrentUserMiddleware>();
+
+app.MapControllerRoute(name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
 	name: "default",

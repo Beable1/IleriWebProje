@@ -62,7 +62,9 @@
 					</div>
 					<div>
 						<h3 class="product-price">@Model.Price</h3>
+						@if(Model.Stock>0){
 						<span class="product-available">In Stock</span>
+						}
 					</div>
 
 					<table class="table table-striped">
@@ -88,18 +90,51 @@
 
 					</tbody>
 					</table>
+					@if (Model.Stock > 0)
+					{
+						@using (Html.BeginForm("SubmitData", "products", FormMethod.Post))
+						{
+							<div class="add-to-cart">
+								<div class="qty-label">
 
-					<div class="add-to-cart">
-						<div class="qty-label">
-							Qty
-							<div class="input-number">
-								<input type="number">
-								<span class="qty-up">+</span>
-								<span class="qty-down">-</span>
+
+									<div class="input-number">
+										<input type="hidden" id="ProductId" name="ProductId" value="@Model.Id" />
+										<input type="number" id="Quantity" name="Quantity" value="1" min="1">
+										<span class="qty-up">+</span>
+										<span class="qty-down">-</span>
+									</div>
+
+
+									Qty
+
+
+
+
+								</div>
+
+								<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> add to cart</button>
 							</div>
-						</div>
-						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-					</div>
+						}
+					}
+					else
+					{
+						<h4 style = "color:Red"> Out of Stock</h4>
+					}
+
+
+
+
+					<script>
+						function addToCart(productId) {
+							// Quantity input değerini al
+							const quantityInput = document.getElementById(`quantity-${productId}`);
+							const quantity = quantityInput ? quantityInput.value : 1;
+
+							// Kullanıcıyı AddToCart metoduna yönlendir
+							window.location.href = `/Cart/AddToCartWithQuantity/${productId}/${quantity}`;
+						}
+					</script>
 
 
 					<ul class="product-links">

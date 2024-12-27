@@ -63,7 +63,17 @@ namespace IleriWeb.Web.Controllers
             
                 var product = _mapper.Map<Product>(productDto);
                 product.ImageData = imageData;
-                await _services.AddAsync(product);
+
+			var productFeature = new ProductFeature
+			{
+				Color = productDto.ProductFeature.Color,
+				Height = productDto.ProductFeature.Height,
+				Width =productDto.ProductFeature.Width,
+				ProductId = productDto.ProductFeature.ProductId
+			};
+            product.ProductFeature = productFeature;
+
+			await _services.AddAsync(product);
                 return RedirectToAction(nameof(Index));
             
 
@@ -123,6 +133,21 @@ namespace IleriWeb.Web.Controllers
 
 
 			return View(product);
+		}
+
+		[HttpPost]
+		public ActionResult SubmitData(AddToCartWithQuantityDTO model)
+		{
+			if (ModelState.IsValid)
+			{
+				TempData["ProductId"] = model.ProductId;
+				TempData["Quantity"] = model.Quantity;
+
+				// İkinci View'e yönlendir
+				return RedirectToAction("AddToCartWithQuantity","Cart");
+			}
+
+			return View("ProductDetails", model);
 		}
 
 

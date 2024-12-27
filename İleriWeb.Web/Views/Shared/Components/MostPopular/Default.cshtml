@@ -44,8 +44,13 @@
 										
 										<div class="add-to-cart">
 											
+											@if (i.ProductStock > 0)
+											{
+												<button class="add-to-cart-btn" onclick="window.location.href='/Cart/AddToCart/@i.ProductId'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											}else{
+												<h4 style="color:White">Out of Stock</h4>
+											}
 
-											<button class="add-to-cart-btn" onclick="window.location.href='/Cart/AddToCart/@i.ProductId'"><i class="fa fa-shopping-cart"></i> add to cart</button>
 										</div>
 									</div>
 								}

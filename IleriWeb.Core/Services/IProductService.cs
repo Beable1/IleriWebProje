@@ -1,4 +1,5 @@
 ﻿using IleriWeb.Core.DTOs;
+using IleriWeb.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace
 		Task<List<ProductWithCategoryDto>> GetProductsWithCategory();
 
 		Task<Product> GetProductDetailsWithIdAsync(int id);
+
+		Task UpdateStockAsync(int productId, int quantity);
 	}
 }

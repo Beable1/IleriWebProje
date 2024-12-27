@@ -14,12 +14,23 @@ namespace IleriWeb.Service.Services
 	public class BasketService : Service<Basket>, IBasketService
 	{
 		private readonly IBasketRepository _basketRepository;
+		private readonly IUnitOfWork _unitOfWork;
+
 		public BasketService(IGenericRepository<Basket> repository, IUnitOfWork unitOfWork, IBasketRepository basketRepository) : base(repository, unitOfWork)
 		{
 			_basketRepository = basketRepository;
+			_unitOfWork = unitOfWork;
 		}
 
-	
+		public async Task ClearBasketAsync(int BasketId)
+		{
+			var basket = await _basketRepository.GetByIdAsync(BasketId);
+			if (basket != null)
+			{
+				basket.Items.Clear();
+				await _unitOfWork.CommitAsync();
+			}
+		}
 
 		public async Task<Basket> GetBasketByUserId(int userId)
 		{

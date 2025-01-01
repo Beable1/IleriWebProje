@@ -32,6 +32,15 @@ namespace IleriWeb.Service.Services
 			return product;
 		}
 
+		public async Task<List<Product>> GetProductsWithDetails()
+		{
+			var products = await _productRepository.GetProductsWithDetails();
+
+			
+			return products;
+
+		}
+
 		public async Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
 		{
 			var products = await _productRepository.GetProductsWithCategory();

@@ -13,7 +13,7 @@ namespace
 	{
 
 		Task<List<Product>> GetProductsWithCategory();
-
+		Task<List<Product>> GetProductsWithDetails();
 		Task<Product> GetProductDetailsWithIdAsync(int id);
 		
 	}

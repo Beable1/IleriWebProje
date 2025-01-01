@@ -47,12 +47,17 @@
 					<div class="col-md-3">
 						<div class="header-logo">
 							<a href="/Home" class="logo">
-								<img src="~/CommerceAssets/img/logo.png" alt="">
+								<h2 style="color:white">ADMIN PANEL</h2>
 							</a>
 						</div>
 					</div>
-					
 
+					<!-- Space -->
+					<div class="col-md-5">
+						
+					</div>
+					
+					@await Component.InvokeAsync("AdminButtons")
 					
 				</div>
 				<!-- row -->
@@ -62,12 +67,34 @@
 		<!-- /MAIN HEADER -->
 	</header>
 	<!-- /HEADER -->
+	<!-- NAVIGATION -->
+	<nav id="navigation">
+		<!-- container -->
+		<div class="container">
+			<!-- responsive-nav -->
+			<div id="responsive-nav">
+				<!-- NAV -->
+				<ul class="main-nav nav navbar-nav">
+					<li ><a class="nav-link text-dark" asp-area="admin" asp-controller="Products" asp-action="Index">Products</a></li>
+					
+					<li><a class="nav-link text-dark" asp-area="admin" asp-controller="Category" asp-action="Index">Categories</a></li>
+
+				</ul>
+				<!-- /NAV -->
+			</div>
+			<!-- /responsive-nav -->
+		</div>
+		<!-- /container -->
+	</nav>
+	<!-- /NAVIGATION -->
 	
 
-	<h3>ADMIN PANEL</h3>
-   
+	
+		<div class="container">
+		@RenderBody()
+		</div>
         
-            @RenderBody()
+            
        
     
 

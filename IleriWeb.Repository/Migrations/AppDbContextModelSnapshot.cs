@@ -78,6 +78,9 @@ namespace IleriWeb.Repository.Migrations
                     b.Property<decimal>("ProductPrice")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("ProductStock")
+                        .HasColumnType("integer");
+
                     b.Property<int>("TotalOrders")
                         .HasColumnType("integer");
 
@@ -122,6 +125,47 @@ namespace IleriWeb.Repository.Migrations
                     b.ToTable((string)null);
 
                     b.ToView("productstockstatus", (string)null);
+                });
+
+            modelBuilder.Entity("IleriWeb.Core.DTOs.userordersview", b =>
+                {
+                    b.Property<string>("IdentityUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("userordersview", (string)null);
                 });
 
             modelBuilder.Entity("IleriWeb.Core.Models.ApplicationRole", b =>

@@ -1,0 +1,156 @@
+﻿@using IleriWeb.Web.Helpers
+@model Dictionary<DateTime, List<Order>>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var rate = (double?)HttpContextAccessor.HttpContext?.Items["CurrencyRate"];
+    var Currency = (string?)HttpContextAccessor.HttpContext?.Items["Currency"];
+}
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orders</title>
+<style>
+    .order-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        padding: 30px;
+        margin-bottom: 25px;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+    .order-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+    }
+
+    .product {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border: 2px solid #eee;
+        border-radius: 12px;
+        padding: 20px;
+        flex: 1 1 calc(33.333% - 50px);
+        box-sizing: border-box;
+    }
+
+    .product-image {
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .product-info {
+        flex-grow: 1;
+    }
+
+    .product-name {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    .product-quantity, .product-price, .product-total {
+        margin: 10px 0;
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+    .order-footer {
+        display: flex;
+        
+        align-items: center;
+        border-top: 2px solid #eee;
+        padding-top: 20px;
+        margin-top: 20px;
+    }
+
+    .total-price {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .track-button {
+        background-color: #ff9900;
+        color: #fff;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .track-button:hover {
+            background-color: #e68a00;
+        }
+</style>
+
+<div class="container">
+    <br />
+     <h1>Orders</h1>
+     <br />
+    <div class="orders">
+        <!-- Sipariş Kartı 1 -->
+        @foreach (var group in Model)
+        {
+           
+            decimal total = 0;
+            
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-date">Order Date: @group.Key.ToShortDateString()</span>
+                </div>
+
+                <div class="order-details">
+                    @foreach (var order in group.Value)
+                    {
+                        <div class="product">
+                            @{
+                                var base64 = Convert.ToBase64String(order.OrderDetails.Product.ImageData);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            }
+                            <img src="@imgSrc" alt="Ürün Resmi" class="product-image" />
+                            
+                            <div class="product-info">
+                                <h3 class="product-name">@order.OrderDetails.Product.Name</h3>
+                                <p class="product-quantity">Quantity: @order.OrderDetails.Quantity</p>
+                                <p class="product-price">Price:  @CurrencyHelper.ConvertCurrency(order.OrderDetails.Product.Price, rate)  </p>
+                                <p>Total: @(order.OrderDetails.Quantity * @CurrencyHelper.ConvertCurrency(order.OrderDetails.Product.Price, rate)) @Currency </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="order-footer">
+                    <span class="total-price">
+                        Toplam:&nbsp;&nbsp;  @foreach (var order in group.Value)
+                        {
+                            total += (order.OrderDetails.Quantity * @CurrencyHelper.ConvertCurrency(order.OrderDetails.Product.Price, rate));
+                        }
+                        
+                    </span>
+
+                    @total @Currency
+                    
+                </div>
+            </div>
+        }
+               
+
+    </div>
+</div>
+

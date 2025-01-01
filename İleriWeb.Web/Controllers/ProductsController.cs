@@ -9,10 +9,12 @@ using IleriWeb.Core;
 using IleriWeb.Core.Models;
 using IleriWeb.Core.Repositories;
 using IleriWeb.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IleriWeb.Web.Controllers
 {
-    public class ProductsController : Controller
+	[AllowAnonymous]
+	public class ProductsController : Controller
     {
         private readonly IProductService _services;
         private readonly ICategoryService _categoryService;
@@ -32,97 +34,16 @@ namespace IleriWeb.Web.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
-        {
-
-            return View(await _services.GetProductsWithCategory());
-        }
-
-        public async Task<IActionResult> Save()
-        {
-            var categories = await _categoryService.GetAllAsync();
-            var categoriesDto = _mapper.Map<List<CategoryDto>>(categories.ToList());
-
-            ViewBag.categories = new SelectList(categoriesDto, "Id", "Name");
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Save(ProductDto productDto)
-        {
-            byte[] imageData;
-            using (var memoryStream = new MemoryStream())
-            {
-                await productDto.imageFile.CopyToAsync(memoryStream);
-                imageData = memoryStream.ToArray();
-                
-            }
 
 
-            
-                var product = _mapper.Map<Product>(productDto);
-                product.ImageData = imageData;
-
-			var productFeature = new ProductFeature
-			{
-				Color = productDto.ProductFeature.Color,
-				Height = productDto.ProductFeature.Height,
-				Width =productDto.ProductFeature.Width,
-				ProductId = productDto.ProductFeature.ProductId
-			};
-            product.ProductFeature = productFeature;
-
-			await _services.AddAsync(product);
-                return RedirectToAction(nameof(Index));
-            
-
-            var categories = await _categoryService.GetAllAsync();
-            var categoriesDto = _mapper.Map<List<CategoryDto>>(categories.ToList());
-
-            ViewBag.categories = new SelectList(categoriesDto, "Id", "Name");
-
-            return View();
-        }
-        [ServiceFilter(typeof(NotFoundFilter<Product>))]
-        public async Task<IActionResult> Update(int id)
-        {
-            var product = await _services.GetByIdAsync(id);
-
-            var categories = await _categoryService.GetAllAsync();
-            var categoriesDto = _mapper.Map<List<CategoryDto>>(categories.ToList());
-
-            ViewBag.categories = new SelectList(categoriesDto, "Id", "Name", product.CategoryId);
-
-            return View(_mapper.Map<ProductDto>(product));
-        }
-        [HttpPost]
-        public async Task<IActionResult> Update(ProductDto productDto)
-        {
-
-            if (ModelState.IsValid)
-            {
-
-                await _services.UpdateAsync(_mapper.Map<Product>(productDto));
-                return RedirectToAction(nameof(Index));
-            }
-
-            var categories = await _categoryService.GetAllAsync();
-            var categoriesDto = _mapper.Map<List<CategoryDto>>(categories.ToList());
-
-            ViewBag.categories = new SelectList(categoriesDto, "Id", "Name", productDto.CategoryId);
-
-            return View(productDto);
-        }
 
 
-        public async Task<IActionResult> Remove(int id)
-        {
-            var product = await _services.GetByIdAsync(id);
-            await _services.RemoveAsync(product);
-            return RedirectToAction(nameof(Index));
-        }
-
+		[HttpGet]
+		public async Task<IActionResult> Index()
+		{
+			var products= await _services.GetProductsWithDetails();
+			return View(products);
+		}
 
 
 		[HttpGet]

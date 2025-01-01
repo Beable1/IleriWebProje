@@ -14,6 +14,7 @@ namespace
 		Task<List<ProductWithCategoryDto>> GetProductsWithCategory();
 
 		Task<Product> GetProductDetailsWithIdAsync(int id);
+		Task<List<Product>> GetProductsWithDetails();
 
 		Task UpdateStockAsync(int productId, int quantity);
 	}

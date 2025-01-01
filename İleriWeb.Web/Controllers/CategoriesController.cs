@@ -5,10 +5,12 @@ using IleriWeb.Core.Models;
 using IleriWeb.Core.Services;
 using IleriWeb.Service.Services;
 using IleriWeb.Core.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IleriWeb.Web.Controllers
 {
-    public class CategoriesController : Controller
+	[AllowAnonymous]
+	public class CategoriesController : Controller
     {
 
         private readonly ICategoryService _categoryService;
@@ -21,13 +23,18 @@ namespace IleriWeb.Web.Controllers
             _mapper = mapper;
         }
 
-       
 
 
-       
+
+		public async Task<IActionResult> Index()
+		{
+			var category = await _categoryService.GetAllAsync();
+
+			return View(category);
+		}
 
 
-        public async Task<IActionResult> Products(int id)
+		public async Task<IActionResult> Products(int id)
 		{
 			var category = await _categoryService.GetSingleCategoryByIdWithProductsAsync(id);
 			

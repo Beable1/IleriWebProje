@@ -148,13 +148,19 @@ namespace IleriWeb.Repository
 
 			modelBuilder.Entity<ApplicationUser>().ToTable(tb => tb.HasTrigger("user_created_trigger"));
 
-			modelBuilder.Entity<mostorderedproduct>(entity =>
+            modelBuilder.Entity<mostorderedproduct>(entity =>
             {
-                entity.HasNoKey(); 
-                entity.ToView("mostorderedproducts"); 
+                entity.HasNoKey();
+                entity.ToView("mostorderedproducts");
             });
 
-            modelBuilder.Entity<mostsoldcategories>(entity =>
+			modelBuilder.Entity<userordersview>(entity =>
+			{
+				entity.HasNoKey();
+				entity.ToView("userordersview");
+			});
+
+			modelBuilder.Entity<mostsoldcategories>(entity =>
             {
                 entity.HasNoKey(); 
                 entity.ToView("mostsoldcategories");

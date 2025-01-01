@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using IleriWeb.Core.DTOs;
 using IleriWeb.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IleriWeb.Web.Controllers
 {
-    public class UserController : Controller
+	[AllowAnonymous]
+	public class UserController : Controller
     {
 
         private readonly SignInManager<ApplicationUser> signInManager;

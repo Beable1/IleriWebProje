@@ -1,6 +1,11 @@
 ﻿@using IleriWeb.Core
+@using IleriWeb.Web.Helpers
 @model Product
-
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+	var rate = (double?)HttpContextAccessor.HttpContext?.Items["CurrencyRate"];
+	var Currency = (string?)HttpContextAccessor.HttpContext?.Items["Currency"];
+}
 <div id="breadcrumb" class="section">
 	<!-- container -->
 	<div class="container">
@@ -61,7 +66,7 @@
 						
 					</div>
 					<div>
-						<h3 class="product-price">@Model.Price</h3>
+						<h3 class="product-price"> @CurrencyHelper.ConvertCurrency(Model.Price, rate) @Currency</h3>
 						@if(Model.Stock>0){
 						<span class="product-available">In Stock</span>
 						}

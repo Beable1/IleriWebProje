@@ -12,25 +12,26 @@ namespace IleriWeb.Web.ViewComponents
     {
         
         private readonly AppDbContext _context;
+        private readonly ICurrencyService currencyService;
 
-		public MostPopular(AppDbContext context, IProductService productService)
+		public MostPopular(AppDbContext context, IProductService productService, ICurrencyService currencyService)
 		{
 			_context = context;
-			
+			this.currencyService = currencyService;
 		}
 
-		
 
-        public async Task<IViewComponentResult> InvokeAsync()
+
+		public async Task<IViewComponentResult> InvokeAsync()
         {
 
 			var products = await _context.mostorderedproducts.ToListAsync();
 
-			// Bu 'productname' değerlerine göre Product tablosunu filtreliyoruz
-			
+            // Bu 'productname' değerlerine göre Product tablosunu filtreliyoruz
 
+
+            ViewBag.Currency = currencyService.Rate;
             
-            Console.WriteLine("");
 
 			return View(products);
         }

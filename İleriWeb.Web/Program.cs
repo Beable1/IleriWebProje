@@ -21,6 +21,8 @@ using IleriWeb.Web.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.SqlClient;
 using System.Web.Mvc;
+using Microsoft.Extensions.Options;
+using ExchangeRateService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,13 +38,24 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
       .AddDefaultTokenProviders();
 
 
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("AllowAll", builder =>
+	{
+		builder.AllowAnyOrigin()
+			   .AllowAnyMethod()
+			   .AllowAnyHeader();
+	});
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession();
-builder.Services.AddAuthentication(
-    CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x => { x.LoginPath = "/user/login"; });
+
+
+
+
 
 
 
@@ -52,16 +65,31 @@ builder.Services.AddAuthorization(options =>
     {
         policy.RequireRole("admin");
     });
+
+	options.FallbackPolicy = new AuthorizationPolicyBuilder()
+		.RequireAuthenticatedUser()
+		.Build();
+
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.LoginPath = "/user/login"; // Giriş yapılması gereken sayfa
+	options.AccessDeniedPath = "/User/AccessDenied"; // Erişim engellendiğinde yönlenecek sayfa
 });
 
 
+
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<ProductDtoValidator>();
+
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped<IProductRepıository, ProductRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
@@ -71,6 +99,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddAutoMapper(typeof(MapProfile));
 builder.Services.AddScoped(typeof(NotFoundFilter<>));
+builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<AppDbContext>(
     x =>
@@ -94,12 +123,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseCors();
 app.UseAuthentication();
 
 app.UseAuthorization();
 app.UseSession();
 app.UseMiddleware<CurrentUserMiddleware>();
+app.UseMiddleware<CurrencyMiddleware>();
 
 app.MapControllerRoute(name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

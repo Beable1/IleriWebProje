@@ -1,6 +1,10 @@
-﻿@{
+﻿@using IleriWeb.Web.Helpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+	var rate = (double?)HttpContextAccessor.HttpContext?.Items["CurrencyRate"];
+	var Currency = (string?)HttpContextAccessor.HttpContext?.Items["Currency"];
 	var basket = ViewData["Basket"] as Basket;
-	Console.WriteLine(@basket.Items.Count);
+	
 	decimal TotalPrice = 0;
 	foreach (var i in basket.Items)
 	{
@@ -58,7 +62,8 @@
 									</div>
 									<div class="product-body">
 										<h3 class="product-name"><a href="#">@item.Product.Name</a></h3>
-										<h4 class="product-price"><span class="qty">@item.Quantity x</span>$@item.TotalPrice</h4>
+
+										<h4 class="product-price"><span class="qty">@item.Quantity x</span> @CurrencyHelper.ConvertCurrency(item.TotalPrice, rate) @Currency </h4>
 									</div>
 									<button class="delete" onclick="window.location.href='/Cart/RemoveFromCart/@item.Id'"><i class="fa fa-close"></i></button>
 								</div>
@@ -87,9 +92,9 @@
 							<div class="order-col">
 								<div>@item.Quantity x @item.Product.Name</div>
 								<div> @{
-										var total = item.Quantity * item.Product.Price;
-									} 
-									@total
+										var total = item.Quantity * @CurrencyHelper.ConvertCurrency(item.Product.Price, rate);
+									}
+									@total @Currency
 								</div>
 							</div>
 
@@ -115,7 +120,7 @@
 						I've read and accept the <a href="#">terms & conditions</a>
 					</label>
 				</div>
-				<a href="Order" class="primary-btn order-submit">Place order</a>
+				<a asp-action="order" asp-controller="cart" class="primary-btn order-submit">Place order</a>
 			</div>
 			<!-- /Order Details -->
 		</div>

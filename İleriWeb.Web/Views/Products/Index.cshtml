@@ -1,41 +1,128 @@
-﻿@model List<ProductWithCategoryDto>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿@using IleriWeb.Core
+@using IleriWeb.Web.Helpers
+@model List<Product>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+	var rate = (double?)HttpContextAccessor.HttpContext?.Items["CurrencyRate"];
+	var Currency = (string?)HttpContextAccessor.HttpContext?.Items["Currency"];
+}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div>
+				<ul class="breadcrumb-tree">
+					<li><a href="Home/index">Home</a></li>
+					<li><a href="#">All Categories (@Model.Count Results)</a></li>
+					
+
+				</ul>
+			</div>
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
 </div>
+<!-- /BREADCRUMB -->
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <td>Id</td>
-            <td>Name</td>
-            <td>Price</td>
 
-            <td>Stock</td>
-            <td>Category</td>
-            <td>Created Date</td>
-        </tr>
-    </thead>
-    <tbody>
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.Price</td>
-                <td>@item.Stock</td>
-                <td>@item.Category.Name</td>
-                <td>@item.CreatedTime</td>
-                <td> <a class="btn btn-secondary" asp-controller="Products" asp-action="Update" asp-route-id="@item.Id">Güncelle</a>
-                    <a class="btn btn-danger" asp-controller="Products" asp-action="Remove" asp-route-id="@item.Id">Sil</a>
-                </td>
-               
-            </tr>
-        }
+			<!-- STORE -->
+			<div id="store" class="col-md-16">
+				<!-- store top filter -->
+				<div class="store-filter clearfix">
+					<div class="store-sort">
+						<label>
+							Sort By:
+							<select class="input-select">
+								<option value="0">Popular</option>
+								<option value="1">Position</option>
+							</select>
+						</label>
 
-    </tbody>
+						<label>
+							Show:
+							<select class="input-select">
+								<option value="0">20</option>
+								<option value="1">50</option>
+							</select>
+						</label>
+					</div>
+					<ul class="store-grid">
+						<li class="active"><i class="fa fa-th"></i></li>
+						<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+					</ul>
+				</div>
+				<!-- /store top filter -->
+				<!-- store products -->
+				<div class="row">
 
-</table>
+					@foreach (var item in Model)
+					{
+						<!-- product -->
+						<div class="col-md-3 col-xs-6">
+							<div class="product">
+								<div class="product-img">
+									@{
+										var base64 = Convert.ToBase64String(item.ImageData);
+										var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+									}
+									<img src="@imgSrc" style="width: 250px; height: 250px; object-fit: cover;" />
+									<div class="product-label">
+									</div>
+								</div>
+								<div class="product-body">
 
-<a class="btn-link" asp-area="" asp-controller="Products" asp-action="Save">Add Product</a>
+									<h3 class="product-name"><a href="#">@StringHelper.TruncateString(item.Name, 25)</a></h3>
+									<h4 class="product-price">@CurrencyHelper.ConvertCurrency(item.Price, rate) @Currency </h4>
+
+									<div class="product-btns">
+
+										<button class="quick-view" onclick="window.location.href='/Products/ProductDetails/@item.Id'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+									</div>
+								</div>
+								<div class="add-to-cart">
+									@if (item.Stock > 0)
+									{
+										<button class="add-to-cart-btn" onclick="window.location.href='/Cart/AddToCart/@item.Id'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+									}
+									else
+									{
+										<h4 style="color:White">Out of Stock</h4>
+									}
+								</div>
+							</div>
+						</div>
+						<!-- /product -->
+					}
+
+
+
+
+
+
+
+
+
+
+					
+
+
+				</div>
+				<!-- /store products -->
+				<!-- /store bottom filter -->
+			</div>
+			<!-- /STORE -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+		<!

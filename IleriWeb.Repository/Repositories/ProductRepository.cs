@@ -20,10 +20,14 @@ namespace IleriWeb.Repository.Repositories
 		public async Task<List<Product>> GetProductsWithCategory()
 		{
 
-			return await _context.Product.Include(x => x.Category).ToListAsync();
+			return await _context.Product.Include(x => x.Category).Include(x=>x.ProductFeature).ToListAsync();
 		}
 
-		
+		public async Task<List<Product>> GetProductsWithDetails()
+		{
+
+			return await _context.Product.Include(x => x.Category).Include(x => x.ProductFeature).ToListAsync();
+		}
 
 		public async Task<Product> GetProductDetailsWithIdAsync(int id)
 		{

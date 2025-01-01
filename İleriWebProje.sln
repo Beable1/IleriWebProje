@@ -5,11 +5,34 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IleriWeb.Web", "İleriWeb.Web\IleriWeb.Web.csproj", "{EC433B07-F5C9-4BB0-925F-54D62BA1AB5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IleriWeb.Service", "IleriWeb.Service\IleriWeb.Service.csproj", "{A384A046-B1FE-49C1-9EA8-26F130654411}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IleriWeb.Service", "IleriWeb.Service\IleriWeb.Service.csproj", "{A384A046-B1FE-49C1-9EA8-26F130654411}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IleriWeb.Repository", "IleriWeb.Repository\IleriWeb.Repository.csproj", "{B065B475-0D49-4B30-A33A-9572A3396DB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IleriWeb.Repository", "IleriWeb.Repository\IleriWeb.Repository.csproj", "{B065B475-0D49-4B30-A33A-9572A3396DB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IleriWeb.Core", "IleriWeb.Core\IleriWeb.Core.csproj", "{ED03BE9A-AB84-4069-B29D-671BE715EDA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IleriWeb.Core", "IleriWeb.Core\IleriWeb.Core.csproj", "{ED03BE9A-AB84-4069-B29D-671BE715EDA5}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCFService", "WCFService\", "{FC295402-B1FF-4BA2-BCF3-914BD155DC71}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		ProjectReferences = ""
+		Debug.AspNetCompiler.VirtualPath = "/localhost_55971"
+		Debug.AspNetCompiler.PhysicalPath = "WCFService\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55971\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_55971"
+		Release.AspNetCompiler.PhysicalPath = "WCFService\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55971\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "55971"
+		SlnRelativePath = "WCFService\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +56,10 @@ Global
 		{ED03BE9A-AB84-4069-B29D-671BE715EDA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED03BE9A-AB84-4069-B29D-671BE715EDA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED03BE9A-AB84-4069-B29D-671BE715EDA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC295402-B1FF-4BA2-BCF3-914BD155DC71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC295402-B1FF-4BA2-BCF3-914BD155DC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC295402-B1FF-4BA2-BCF3-914BD155DC71}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC295402-B1FF-4BA2-BCF3-914BD155DC71}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

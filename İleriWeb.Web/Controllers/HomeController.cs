@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using IleriWeb.Core.DTOs;
 using System.Diagnostics;
 using IleriWeb.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IleriWeb
 	.Web.Controllers
 {
+	[AllowAnonymous]
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;

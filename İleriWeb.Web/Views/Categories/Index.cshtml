@@ -1,1 +1,37 @@
-﻿
+﻿@model IEnumerable<Category>
+
+
+
+<!-- SECTION -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			@foreach (var i in Model)
+			{
+
+				<!-- shop -->
+				<div class="col-md-4 col-xs-6">
+					<div class="shop">
+						<div class="shop-img">
+							@{
+								var base64 = Convert.ToBase64String(i.ImageData);
+								var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+							}
+							<img src="@imgSrc" style="width: 400px; height: 380px; object-fit: cover;" />
+						</div>
+						<div class="shop-body">
+							<h3>@i.Name<br>Collection</h3>
+							<a href="categories/products/@i.Id" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+				</div>
+				<!-- /shop -->
+			}
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /SECTION -->

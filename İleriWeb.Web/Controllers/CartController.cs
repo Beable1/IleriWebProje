@@ -4,10 +4,12 @@ using IleriWeb.Core.Services;
 using IleriWeb.Core.UnitOfWorks;
 using IleriWeb.Repository;
 using IleriWeb.Service.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IleriWeb.Web.Controllers
 {
+	
 	public class CartController : BaseController
 	{
 		private readonly IProductService _productService;
@@ -27,6 +29,11 @@ namespace IleriWeb.Web.Controllers
 
 		public async Task<IActionResult> AddToCart(int id)
 		{
+			if (CurrentUser == null)
+			{
+				return RedirectToAction("login", "user");
+			}
+
 			var basket = await _basketService.GetBasketByUserId(CurrentUser.Id);
 			var basketItem = new BasketItem
 			{
@@ -43,6 +50,10 @@ namespace IleriWeb.Web.Controllers
 
 		public async Task<IActionResult> AddToCartWithQuantity()
 		{
+			if (CurrentUser == null)
+			{
+				return RedirectToAction("login", "user");
+			}
 			var ProductId = Convert.ToInt32(TempData["ProductId"]);
 			var Quantity = Convert.ToInt32(TempData["Quantity"]);
 			var basket = await _basketService.GetBasketByUserId(CurrentUser.Id);
@@ -111,7 +122,7 @@ namespace IleriWeb.Web.Controllers
 			await _basketService.ClearBasketAsync(basket.Id);
 
 
-			return RedirectToAction();
+			return RedirectToAction("index","orders");
 		}
 
 

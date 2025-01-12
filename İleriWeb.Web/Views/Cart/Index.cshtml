@@ -128,3 +128,10 @@
 	</div>
 	</div>
 	<!-- /container -->
+@{
+	var ProductId = Convert.ToInt32(TempData["ProductId"]);
+	var Quantity = Convert.ToInt32(TempData["Quantity"]);
+}
+
+@ProductId
+@Quantity

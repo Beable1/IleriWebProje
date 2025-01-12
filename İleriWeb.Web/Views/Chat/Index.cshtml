@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Chat";
+}
+
+<h2>Real-time Chat</h2>
+
+<div>
+    <h3>Send Message</h3>
+    <form method="post" action="/Chat/SendMessage">
+        <label for="receiver">Receiver:</label>
+        <input type="text" id="receiver" name="receiver" required />
+
+        <label for="content">Message:</label>
+        <textarea id="content" name="content" required></textarea>
+
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/signalr@3.1.12/dist/browser/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder().withUrl("/messagingHub").build();
+
+    connection.on("ReceiveMessage", (sender, content, timestamp) => {
+        const messageElement = document.createElement("div");
+        messageElement.innerText = `[${timestamp}] ${sender}: ${content}`;
+        document.body.appendChild(messageElement);
+    });
+
+    connection.start().then(() => {
+        console.log("Connected to SignalR hub.");
+    }).catch(err => console.log("Error connecting to SignalR: ", err));
+</script>

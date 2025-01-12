@@ -23,6 +23,12 @@ using Microsoft.Data.SqlClient;
 using System.Web.Mvc;
 using Microsoft.Extensions.Options;
 using ExchangeRateService;
+using IleriWeb.Web.Hubs;
+using IleriWeb.Web.Services;
+using Grpc.Net.Client;
+using Grpc.AspNetCore.Web;
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,20 +50,17 @@ builder.Services.AddCors(options =>
 	{
 		builder.AllowAnyOrigin()
 			   .AllowAnyMethod()
-			   .AllowAnyHeader();
+			   .AllowAnyHeader().WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
 	});
 });
+
+builder.Services.AddSignalR();  // SignalR servisini ekleyin
+builder.Services.AddGrpc();     // gRPC servisini ekleyin
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession();
-
-
-
-
-
-
 
 builder.Services.AddAuthorization(options =>
 {
@@ -91,6 +94,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 
+builder.Services.AddTransient<GrpcChatService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
@@ -108,8 +112,12 @@ builder.Services.AddDbContext<AppDbContext>(
     }
     );
 
+builder.Services.AddGrpc();
 
 var app = builder.Build();
+
+app.MapHub<ChatHub>("/chatHub");
+
 app.UseExceptionHandler("/Home/Error");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -120,6 +128,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseGrpcWeb();
+app.MapGrpcService<Messaging.Messaging.MessagingClient>().EnableGrpcWeb().RequireCors("AllowAll");
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -134,6 +144,7 @@ app.UseMiddleware<CurrencyMiddleware>();
 app.MapControllerRoute(name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+app.MapHub<ChatHub>("/messagingHub");
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");

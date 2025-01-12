@@ -1,0 +1,33 @@
+﻿@model List<maskedaspnetusers>
+
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>FullName</td>
+            <td>Username</td>
+            <td>Email</td>
+
+           
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FullName</td>
+                <td>@item.UserName</td>
+                <td>@item.MaskedEmail</td>
+                
+               
+            </tr>
+        }
+
+    </tbody>
+
+</table>

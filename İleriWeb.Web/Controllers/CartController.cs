@@ -82,9 +82,11 @@ namespace IleriWeb.Web.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-
-			var basket = await _basketService.GetBasketDetailsWithIdAsync(CurrentUser.Id);
+            var ProductId = Convert.ToInt32(TempData["ProductId"]);
+            var Quantity = Convert.ToInt32(TempData["Quantity"]);
+            var basket = await _basketService.GetBasketDetailsWithIdAsync(CurrentUser.Id);
 			ViewData["Basket"] = basket;
+
 			return View();
 		}
 

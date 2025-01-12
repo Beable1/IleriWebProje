@@ -36,11 +36,11 @@ namespace IleriWeb.Repository
 
 
 
+		public DbSet<ApplicationUser> GetUserByIdResult { get; set; }
 
 
-
-
-		public DbSet<mostorderedproduct> mostorderedproducts { get; set; }
+		public DbSet<maskedaspnetusers> maskedaspnetusers { get; set; }
+        public DbSet<mostorderedproduct> mostorderedproducts { get; set; }
         public DbSet<mostsoldcategories> mostsoldcategories { get; set; }
         public DbSet<dailyordersummary> dailyordersummary { get; set; }
         public DbSet<mostactivecustomers> mostactivecustomers { get; set; }
@@ -148,6 +148,12 @@ namespace IleriWeb.Repository
 
 			modelBuilder.Entity<ApplicationUser>().ToTable(tb => tb.HasTrigger("user_created_trigger"));
 
+            modelBuilder.Entity<maskedaspnetusers>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("maskedaspnetusers");
+            });
+
             modelBuilder.Entity<mostorderedproduct>(entity =>
             {
                 entity.HasNoKey();
@@ -184,7 +190,10 @@ namespace IleriWeb.Repository
                 entity.ToView("productstockstatus");
             });
 
-            
+
+		
+			modelBuilder.Entity<ApplicationUser>().HasNoKey(); // Stored procedure sonucu için primary key olmayabilir.
+		
 
                 
             base.OnModelCreating(modelBuilder);

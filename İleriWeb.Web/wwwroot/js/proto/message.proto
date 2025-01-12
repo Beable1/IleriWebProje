@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package messaging;
+
+service Messaging {
+  rpc Chat (stream MessageRequest) returns (stream MessageResponse);
+}
+
+message MessageRequest {
+  string sender = 1; // Mesajý gönderen kullanýcý
+  string receiver = 2; // Mesajýn alýcýsý
+  string content = 3; // Mesaj içeriði
+}
+
+message MessageResponse {
+  string sender = 1; // Mesajý gönderen kullanýcý
+  string content = 2; // Mesaj içeriði
+  string timestamp = 3; // Mesaj zamaný
+}
